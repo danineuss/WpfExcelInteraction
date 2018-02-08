@@ -26,17 +26,8 @@ namespace WpfExcelInteraction.Models
 
         public Dictionary<string, string> GameDictionary
         {
-            get
-            {
-                return _gameDictionary;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _gameDictionary = value;
-                }
-            }
+            get { return _gameDictionary; }
+            set { _gameDictionary = value; }
         }
 
         #endregion
