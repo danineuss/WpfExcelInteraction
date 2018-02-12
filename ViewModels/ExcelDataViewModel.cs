@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using Microsoft.Win32;
 using WpfExcelInteraction.Models;
 using WpfFileDialog.ViewModels;
 using WpfTreeView;
@@ -36,7 +37,15 @@ namespace WpfExcelInteraction.ViewModels
 
         private void LoadFile()
         {
-            excelData.WriteToDisk();
+            string fileName = "";
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                fileName = openFileDialog.FileName;
+            }
+
+            excelData.LoadFromDisk(fileName);
         }
 
         private void SaveFile()

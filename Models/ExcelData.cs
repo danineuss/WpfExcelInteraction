@@ -52,7 +52,6 @@ namespace WpfExcelInteraction.Models
 
             _fileName = fileName;
             _dataDictionary = new Dictionary<string, string>();
-            _dataDictionary.Add("Brothers: A Tale of Two Sons", "Excellent");
         }
 
         #endregion
@@ -84,7 +83,8 @@ namespace WpfExcelInteraction.Models
         /// <param name="fullPath">The full file path of the .csv file.</param>
         public void LoadFromDisk(string fullPath)
         {
-
+            _dataDictionary = File.ReadLines(fullPath).Select(
+                line => line.Split(';')).ToDictionary(data => data[0], data => data[1]);
         }
 
         #endregion
