@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using WpfExcelInteraction.Models;
 using WpfFileDialog.ViewModels;
 using WpfTreeView;
 
@@ -12,46 +13,35 @@ namespace WpfExcelInteraction.ViewModels
 
         private bool _canSave;
 
+        private ExcelData excelData;
+
         #endregion
 
-        /// <summary>
-        /// This connects to the Button in the UI. It calls the RelayCommand class with the appropriate function loaded.
-        /// </summary>
-        public ICommand LoadCommand
+        public ExcelDataViewModel()
         {
-            get
-            {
-                if (_clickCommand == null)
-                {
-                    _clickCommand = new RelayCommand(LoadFile, true);
-                }
-                return _clickCommand;
-            }
+            excelData = new ExcelData();
         }
+
+        public ExcelData ExcelData { get; set; }
 
         /// <summary>
         /// This connects to the Button in the UI. It calls the RelayCommand class with the appropriate function loaded.
         /// </summary>
-        public ICommand SaveCommand
-        {
-            get
-            {
-                if (_clickCommand == null)
-                {
-                    _clickCommand = new RelayCommand(SaveFile, _canSave);
-                }
-                return _clickCommand;
-            }
-        }
+        public ICommand LoadCommand => new RelayCommand(LoadFile, true);
+
+        /// <summary>
+        /// This connects to the Button in the UI. It calls the RelayCommand class with the appropriate function loaded.
+        /// </summary>
+        public ICommand SaveCommand => new RelayCommand(SaveFile, _canSave);
 
         private void LoadFile()
         {
-
+            excelData.WriteToDisk();
         }
 
         private void SaveFile()
         {
-
+            excelData.WriteToDisk();
         }
     }
 }
