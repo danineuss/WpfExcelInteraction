@@ -1,18 +1,12 @@
 ﻿using System.Windows.Input;
 using Microsoft.Win32;
 using WpfExcelInteraction.Models;
-using WpfFileDialog.ViewModels;
-using WpfTreeView;
 
 namespace WpfExcelInteraction.ViewModels
 {
     public class ExcelDataViewModel : BaseViewModel
     {
         #region Private Members
-        
-        private ICommand _clickCommand;
-
-        private bool _canSave;
 
         private ExcelData excelData;
 
@@ -33,24 +27,26 @@ namespace WpfExcelInteraction.ViewModels
         /// <summary>
         /// This connects to the Button in the UI. It calls the RelayCommand class with the appropriate function loaded.
         /// </summary>
-        public ICommand SaveCommand => new RelayCommand(SaveFile, _canSave);
+        public ICommand SaveCommand => new RelayCommand(SaveFile, true);
 
         private void LoadFile()
         {
-            string fileName = "";
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             if (openFileDialog.ShowDialog() == true)
             {
-                fileName = openFileDialog.FileName;
+                excelData.LoadFromDisk(openFileDialog.FileName, openFileDialog.SafeFileName);
             }
-
-            excelData.LoadFromDisk(fileName);
         }
 
         private void SaveFile()
         {
-            excelData.WriteToDisk();
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                excelData.WriteToDisk(saveFileDialog.FileName);
+            }
         }
     }
 }

@@ -31,8 +31,8 @@ namespace WpfExcelInteraction.Models
 
         public Dictionary<string, string> DataDictionary
         {
-            get { return _dataDictionary; }
-            set { _dataDictionary = value; }
+            get => _dataDictionary;
+            set => _dataDictionary = value;
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace WpfExcelInteraction.Models
         public void WriteToDisk(string fullPath = null)
         {
             string csv = String.Join(
-                Environment.NewLine, _dataDictionary.Select(datum => datum.Key + ";" + datum.Value + ";"));
+                Environment.NewLine, DataDictionary.Select(datum => datum.Key + ";" + datum.Value + ";"));
             if (fullPath != null)
             {
                 File.WriteAllText(fullPath, csv);
@@ -81,9 +81,12 @@ namespace WpfExcelInteraction.Models
         /// Loads a .csv file and creates a new gameDictionary from it.
         /// </summary>
         /// <param name="fullPath">The full file path of the .csv file.</param>
-        public void LoadFromDisk(string fullPath)
+        /// <param name="fileName">The name of the loaded file.</param>
+        public void LoadFromDisk(string fullPath, string fileName = "")
         {
-            _dataDictionary = File.ReadLines(fullPath).Select(
+            FileName = fileName;
+
+            DataDictionary = File.ReadLines(fullPath).Select(
                 line => line.Split(';')).ToDictionary(data => data[0], data => data[1]);
         }
 

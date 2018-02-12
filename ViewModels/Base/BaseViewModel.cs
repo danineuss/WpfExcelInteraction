@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using PropertyChanged;
 
-namespace WpfFileDialog.ViewModels
+namespace WpfExcelInteraction.ViewModels
 {
     /// <summary>
     /// A base view model that fires Property Changed events as needed
