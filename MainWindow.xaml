@@ -13,8 +13,8 @@
             HorizontalAlignment="Center" 
             Height="100" Margin="0,70,0,0" VerticalAlignment="Top" Width="400">
             <DataGrid.Columns>
-                <!--<DataGridTextColumn Header="Key" Binding="{Binding Key}" />-->
-                <!--<DataGridTextColumn Header="Value" Binding="{Binding Value}" />-->
+                <!--<DataGridTextColumn Header="Key" Binding="{Binding Key}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" IsReadOnly="False"/>-->
             </DataGrid.Columns>
         </DataGrid>
         <Button 

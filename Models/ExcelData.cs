@@ -25,11 +25,6 @@ namespace WpfExcelInteraction.Models
         /// <param name="fileName">The name of the file on the drive.</param>
         public ExcelData(string fileName = null)
         {
-            if (fileName == null)
-            {
-                fileName = DefaultFilePath();
-            }
-
             FileName = fileName;
             DataDictionary = new Dictionary<string, string>();
         }

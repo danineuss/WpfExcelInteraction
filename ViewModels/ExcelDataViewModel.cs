@@ -12,11 +12,17 @@ namespace WpfExcelInteraction.ViewModels
 
         private ExcelData excelData;
 
+        private Dictionary<string, string> dataDictionary;
+
         #endregion
 
         #region Public Members
 
-        public Dictionary<string, string> DataDictionary { get; set; }
+        public Dictionary<string, string> DataDictionary
+        {
+            get { return dataDictionary; }
+            set { dataDictionary = value; }
+        }
 
         #endregion
 
