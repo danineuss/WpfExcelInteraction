@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Microsoft.Win32;
 using WpfExcelInteraction.Models;
 
@@ -12,12 +14,21 @@ namespace WpfExcelInteraction.ViewModels
 
         #endregion
 
+        #region Public Members
+
+        public Dictionary<string, string> DataDictionary { get; set; }
+
+        #endregion
+
+        #region Constructor
+
         public ExcelDataViewModel()
         {
             excelData = new ExcelData();
+            DataDictionary = new Dictionary<string, string>();
         }
 
-        public ExcelData ExcelData { get; set; }
+        #endregion
 
         /// <summary>
         /// This connects to the Button in the UI. It calls the RelayCommand class with the appropriate function loaded.
@@ -29,6 +40,9 @@ namespace WpfExcelInteraction.ViewModels
         /// </summary>
         public ICommand SaveCommand => new RelayCommand(SaveFile, true);
 
+        /// <summary>
+        /// Creates a OpenFileDialog to properly open a file windows style.
+        /// </summary>
         private void LoadFile()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -36,9 +50,13 @@ namespace WpfExcelInteraction.ViewModels
             if (openFileDialog.ShowDialog() == true)
             {
                 excelData.LoadFromDisk(openFileDialog.FileName, openFileDialog.SafeFileName);
+                DataDictionary = excelData.DataDictionary;
             }
         }
 
+        /// <summary>
+        /// Creates a SaveFileDialog to properly save a file windows style.
+        /// </summary>
         private void SaveFile()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();

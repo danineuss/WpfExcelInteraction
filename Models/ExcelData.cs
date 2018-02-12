@@ -9,31 +9,11 @@ namespace WpfExcelInteraction.Models
 {
     public class ExcelData
     {
-        /// <summary>
-        /// This class requires a file name and a dictionary containing the data that should be saved/loaded
-        /// at the location.
-        /// </summary>
-        #region Private Members
-
-        private string _fileName;
-
-        private Dictionary<string, string> _dataDictionary;
-
-        #endregion
-
         #region Public Properties
 
-        public String FileName
-        {
-            get => _fileName;
-            set => _fileName = value;
-        }
+        public String FileName { get; set; }
 
-        public Dictionary<string, string> DataDictionary
-        {
-            get => _dataDictionary;
-            set => _dataDictionary = value;
-        }
+        public Dictionary<string, string> DataDictionary { get; set; }
 
         #endregion
 
@@ -50,8 +30,8 @@ namespace WpfExcelInteraction.Models
                 fileName = DefaultFilePath();
             }
 
-            _fileName = fileName;
-            _dataDictionary = new Dictionary<string, string>();
+            FileName = fileName;
+            DataDictionary = new Dictionary<string, string>();
         }
 
         #endregion
@@ -72,7 +52,7 @@ namespace WpfExcelInteraction.Models
             }
             else
             {
-                File.WriteAllText(_fileName, csv);
+                File.WriteAllText(FileName, csv);
             }
             
         }
@@ -88,30 +68,6 @@ namespace WpfExcelInteraction.Models
 
             DataDictionary = File.ReadLines(fullPath).Select(
                 line => line.Split(';')).ToDictionary(data => data[0], data => data[1]);
-        }
-
-        #endregion
-
-        #region Helpers
-
-        /// <summary>
-        /// Creates a default file name within the current project repository.
-        /// </summary>
-        /// <returns></returns>
-        private string DefaultFilePath()
-        {
-            string projectBinPath = Environment.CurrentDirectory;
-            DirectoryInfo partentDir = Directory.GetParent(projectBinPath);
-
-            string folderPath = partentDir.Parent.Parent.FullName + "\\";
-            string nameStub = "DefaultName";
-            int iterator = 1;
-            while (File.Exists(folderPath + nameStub + " " + iterator))
-            {
-                iterator++;
-            }
-
-            return folderPath + nameStub + " " + iterator + ".csv";
         }
 
         #endregion

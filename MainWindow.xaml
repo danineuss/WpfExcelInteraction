@@ -7,8 +7,23 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="270.046" Width="525">
     <Grid>
-        <DataGrid Name="DataGrid" ItemsSource="{Binding ExcelData}" HorizontalAlignment="Center" Height="100" Margin="0,70,0,0" VerticalAlignment="Top" Width="400"/>
-        <Button Command="{Binding LoadCommand}" Content="Load File" HorizontalAlignment="Left" Margin="58,31,0,0" VerticalAlignment="Top" Width="76"/>
-        <Button Command="{Binding SaveCommand}" Content="Save File" HorizontalAlignment="Left" Margin="384,31,0,0" VerticalAlignment="Top" Width="74"/>
+        <DataGrid 
+            ItemsSource="{Binding DataDictionary}"
+            Name="DataGrid" 
+            HorizontalAlignment="Center" 
+            Height="100" Margin="0,70,0,0" VerticalAlignment="Top" Width="400">
+            <DataGrid.Columns>
+                <!--<DataGridTextColumn Header="Key" Binding="{Binding Key}" />-->
+                <!--<DataGridTextColumn Header="Value" Binding="{Binding Value}" />-->
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button 
+            Command="{Binding LoadCommand}" 
+            Content="Load File" 
+            HorizontalAlignment="Left" Margin="58,31,0,0" VerticalAlignment="Top" Width="76"/>
+        <Button 
+            Command="{Binding SaveCommand}" 
+            Content="Save File" 
+            HorizontalAlignment="Left" Margin="384,31,0,0" VerticalAlignment="Top" Width="74"/>
     </Grid>
 </Window>
