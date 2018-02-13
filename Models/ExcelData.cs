@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,21 @@ namespace WpfExcelInteraction.Models
 {
     public class ExcelData
     {
+        #region Private Properties
+
+        private string fileName;
+
+        private ObservableCollection<GameReview> gameCollection;
+
+        #endregion
+
         #region Public Properties
 
         public String FileName { get; set; }
 
         public Dictionary<string, string> DataDictionary { get; set; }
+
+        public ObservableCollection<GameReview> GameCollection { get; set; }
 
         #endregion
 
@@ -27,6 +38,7 @@ namespace WpfExcelInteraction.Models
         {
             FileName = fileName;
             DataDictionary = new Dictionary<string, string>();
+            GameCollection = new ObservableCollection<GameReview>();
         }
 
         #endregion

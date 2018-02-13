@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Win32;
@@ -14,6 +15,8 @@ namespace WpfExcelInteraction.ViewModels
 
         private Dictionary<string, string> dataDictionary;
 
+        private ObservableCollection<GameReview> gameCollection;
+
         #endregion
 
         #region Public Members
@@ -24,6 +27,12 @@ namespace WpfExcelInteraction.ViewModels
             set { dataDictionary = value; }
         }
 
+        public ObservableCollection<GameReview> GameCollection
+        {
+            get => gameCollection;
+            set => gameCollection = value;
+        }
+
         #endregion
 
         #region Constructor
@@ -32,6 +41,11 @@ namespace WpfExcelInteraction.ViewModels
         {
             excelData = new ExcelData();
             DataDictionary = new Dictionary<string, string>();
+            gameCollection = new ObservableCollection<GameReview>
+            {
+                new GameReview("Brothers", "Astounding"),
+                new GameReview("AC Origins", "Beautiful")
+            };
         }
 
         #endregion
