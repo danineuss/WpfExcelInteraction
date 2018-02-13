@@ -1,5 +1,8 @@
 ﻿namespace WpfExcelInteraction.Models
 {
+    /// <summary>
+    /// A small class containing two strings, one for the game's title and one for its review.
+    /// </summary>
     public class GameReview
     {
         private string title;

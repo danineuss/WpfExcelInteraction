@@ -1,36 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.Win32;
 using WpfExcelInteraction.Models;
 
 namespace WpfExcelInteraction.ViewModels
 {
+    /// <summary>
+    /// This is the ViewModel connecting the UI and the data, in this case the MainWindow and ExcelData.
+    /// It handles data binding and relays the commands for saving and loading a file.
+    /// </summary>
     public class ExcelDataViewModel : BaseViewModel
     {
         #region Private Members
 
-        private ExcelData excelData;
+        private ExcelData _excelData;
 
-        private Dictionary<string, string> dataDictionary;
-
-        private ObservableCollection<GameReview> gameCollection;
+        private ObservableCollection<GameReview> _gameCollection;
 
         #endregion
 
         #region Public Members
 
-        public Dictionary<string, string> DataDictionary
-        {
-            get { return dataDictionary; }
-            set { dataDictionary = value; }
-        }
-
         public ObservableCollection<GameReview> GameCollection
         {
-            get => gameCollection;
-            set => gameCollection = value;
+            get => _gameCollection;
+            set => _gameCollection = value;
         }
 
         #endregion
@@ -39,13 +33,8 @@ namespace WpfExcelInteraction.ViewModels
 
         public ExcelDataViewModel()
         {
-            excelData = new ExcelData();
-            DataDictionary = new Dictionary<string, string>();
-            gameCollection = new ObservableCollection<GameReview>
-            {
-                new GameReview("Brothers", "Astounding"),
-                new GameReview("AC Origins", "Beautiful")
-            };
+            _excelData = new ExcelData();
+            _gameCollection = new ObservableCollection<GameReview>();
         }
 
         #endregion
@@ -69,8 +58,8 @@ namespace WpfExcelInteraction.ViewModels
 
             if (openFileDialog.ShowDialog() == true)
             {
-                excelData.LoadFromDisk(openFileDialog.FileName, openFileDialog.SafeFileName);
-                DataDictionary = excelData.DataDictionary;
+                _excelData.LoadFromDisk(openFileDialog.FileName, openFileDialog.SafeFileName);
+                GameCollection = ExcelData.ConvertToCollection(_excelData.GameDictionary);
             }
         }
 
@@ -79,11 +68,12 @@ namespace WpfExcelInteraction.ViewModels
         /// </summary>
         private void SaveFile()
         {
+            _excelData.GameDictionary = ExcelData.ConvertToDictionary(GameCollection);
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                excelData.WriteToDisk(saveFileDialog.FileName);
+                _excelData.SaveToDisk(saveFileDialog.FileName);
             }
         }
     }

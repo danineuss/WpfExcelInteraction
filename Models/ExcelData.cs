@@ -8,13 +8,17 @@ using System.Threading.Tasks;
 
 namespace WpfExcelInteraction.Models
 {
+    /// <summary>
+    /// This is the main data model class containing a dictionary with the data. It can then save or load data
+    /// in csv files.
+    /// </summary>
     public class ExcelData
     {
         #region Private Properties
 
-        private string fileName;
+        private string _fileName;
 
-        private ObservableCollection<GameReview> gameCollection;
+        private Dictionary<string, string> _gameDictionary;
 
         #endregion
 
@@ -22,9 +26,11 @@ namespace WpfExcelInteraction.Models
 
         public String FileName { get; set; }
 
-        public Dictionary<string, string> DataDictionary { get; set; }
-
-        public ObservableCollection<GameReview> GameCollection { get; set; }
+        public Dictionary<string, string> GameDictionary
+        {
+            get => _gameDictionary;
+            set => _gameDictionary = value;
+        }
 
         #endregion
 
@@ -37,8 +43,7 @@ namespace WpfExcelInteraction.Models
         public ExcelData(string fileName = null)
         {
             FileName = fileName;
-            DataDictionary = new Dictionary<string, string>();
-            GameCollection = new ObservableCollection<GameReview>();
+            GameDictionary = new Dictionary<string, string>();
         }
 
         #endregion
@@ -46,22 +51,19 @@ namespace WpfExcelInteraction.Models
         #region Public Functions
 
         /// <summary>
-        /// Saves the current gameDictionary as .csv File with the name being the fileName.
+        /// Saves the GameCollection in a .csv file.
         /// </summary>
-        /// <param name="fullPath">The full file path of the .csv file.</param>
-        public void WriteToDisk(string fullPath = null)
+        /// <param name="fullPath">The entire file path.</param>
+        public void SaveToDisk(string fullPath)
         {
-            string csv = String.Join(
-                Environment.NewLine, DataDictionary.Select(datum => datum.Key + ";" + datum.Value + ";"));
             if (fullPath != null)
             {
-                File.WriteAllText(fullPath, csv);
+                _fileName = fullPath;
             }
-            else
-            {
-                File.WriteAllText(FileName, csv);
-            }
-            
+            string csv = String.Join(
+                Environment.NewLine, GameDictionary.Select(datum => datum.Key + ";" + datum.Value + ";"));
+
+            File.WriteAllText(_fileName, csv);
         }
 
         /// <summary>
@@ -69,12 +71,51 @@ namespace WpfExcelInteraction.Models
         /// </summary>
         /// <param name="fullPath">The full file path of the .csv file.</param>
         /// <param name="fileName">The name of the loaded file.</param>
-        public void LoadFromDisk(string fullPath, string fileName = "")
+        public void LoadFromDisk(string fullPath, string fileName)
         {
             FileName = fileName;
 
-            DataDictionary = File.ReadLines(fullPath).Select(
+            GameDictionary = File.ReadLines(fullPath).Select(
                 line => line.Split(';')).ToDictionary(data => data[0], data => data[1]);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Converts a ObservableCollection with types GameReview into a Dictionary of two strings. This
+        /// is used to then save to a .csv file.
+        /// </summary>
+        /// <param name="collection">The observable collection with the game reviews.</param>
+        /// <returns></returns>
+        public static Dictionary<string, string> ConvertToDictionary(ObservableCollection<GameReview> collection)
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+            foreach (var gameReview in collection)
+            {
+                dictionary.Add(gameReview.Title, gameReview.Review);
+            }
+
+            return dictionary;
+        }
+
+        /// <summary>
+        /// Converts a dictionary of types (string, string) into a custom ObservableCollection of types GameReview.
+        /// </summary>
+        /// <param name="dictionary">The dictionary with (string, string)</param>
+        /// <returns></returns>
+        public static ObservableCollection<GameReview> ConvertToCollection(Dictionary<string, string> dictionary)
+        {
+            ObservableCollection<GameReview> collection = new ObservableCollection<GameReview>();
+
+            foreach (var element in dictionary)
+            {
+                collection.Add(new GameReview(element.Key, element.Value));
+            }
+
+            return collection;
         }
 
         #endregion
